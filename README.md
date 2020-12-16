@@ -12,7 +12,7 @@ This repo contains two applications - one to deploy the Redash Docker image to c
 
 ## Install steps
 
-First, create the backing services for Redash (you can name these services whatever you want, just make sure to update the `app/vars.yml` file accordingly):
+First, create the backing services for Redash (you can name these services whatever you want, just make sure to update the `app/vars.yml` file accordingly - see below):
 
 ```bash
 ~$ cf create-service aws-rds small-psql redash-database
@@ -22,35 +22,39 @@ First, create the backing services for Redash (you can name these services whate
 ~$ cf create-service aws-elasticache-redis redis-dev redash-redis
 ```
 
-Note - it may take several minutes for these services to spin up. You can check the status of these services using `cf services`. When they are successfully created, you can do the initial push of the Redash image. From inside the `/app` directory:
+Note - it may take several minutes for these services to spin up. You can check the status of these services using `cf services`. When they are successfully created, you can do the initial push of the Redash image. 
+
+In the `/app` directory, copy the file `vars.yml.example` to `vars.yml` and update the names of the two services you just created. Make any other changes to this file needed based on your usage scenario.
+
+From inside the `/app` directory:
 
 ```bash
 ~$ cf push --no-start --vars-file vars.yml
 ```
 
-Doing this will bind the backing services to the Redash image, but will not start the app until you have set the needed environmental variables. Run the following to get the connection details for the Postgres RDS and Elasticache Redis service.
+Doing this will bind the backing services you just created to the Redash image you just pushed, but will not start the app until you have set the needed environmental variables. Run the following to get the connection details for the Postgres RDS and Elasticache Redis services.
 
 ```bash
 ~$ cf env {app-name}
 ```
 
-Then, copy `setup-example.sh` to `setup.sh` and use the values found in the the `uri` attribute for these services in the `setup.sh`. Note, you will need to change the Redis uri to use `rediss://` rather than the `redis://` scheme returned when running `cf env`. Once this is done, run the setup script and restage the app.
+Then, copy `setup-example.sh` to `setup.sh` and use the values found in the the `uri` attribute for these services in the `setup.sh` file. **Note, you will need to change the Redis uri to use `rediss://` rather than the `redis://` scheme returned when running `cf env`**. Once this is done, run the setup script and restage the app.
 
 ```bash
 ~$ ./setup.sh {app-name}
 ~$ cf restage {app-name}
 ```
-When the app is pushed and restaged, change to the `/proxy` directory, and copy/update the `vars.yml` file as needed. Push the app:
+When the app is pushed and restaged, change to the `/proxy` directory, and copy/update the `vars.yml` file as needed. Push the proxy app:
 
 ```bash
 ~$ cf push --vars-file vars.yml
 ```
 
-The route for the proxy app is the route you will use to access Redash. However, before your proxy can route traffic to Redash, you will need to set up a network policy for this.
+The route for the proxy app is the public route you will use to access Redash. However, before your proxy can route traffic to Redash, you will need to set up a network policy for this.
 
 ```bash
 ~$ cf add-network-policy (proxy-app-name) {app-name} --port 5000 --protocol tcp
 ```
 
-Once this is done, you should be able to access your Redash instance ats the route for your proxy application.
+Once this is done, you should be able to access your Redash instance at the public `app.cloud.gov` route for your proxy application.
 
