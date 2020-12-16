@@ -1,0 +1,6 @@
+app-name: redash-example-proxy
+route: redash-example-proxy.app.cloud.gov
+instances: 1
+memory: 256M
+disk_quota: 256M
+redash-route: redash-example.apps.internal

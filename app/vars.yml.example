@@ -1,0 +1,7 @@
+app-name: redash-example
+route: redash-example.apps.internal
+database: redash-database
+redis: redash-redis
+instances: 2
+disk_quota: 2GB
+memory: 1GB

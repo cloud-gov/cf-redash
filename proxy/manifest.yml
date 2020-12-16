@@ -1,0 +1,11 @@
+applications:
+- name: ((app-name))
+  memory: ((memory))
+  disk_quota: ((disk_quota))
+  path: ./nginx
+  buildpacks:
+  - nginx_buildpack
+  routes:
+  - route: ((route))
+  env:
+    REDASH_ROUTE: ((redash-route))

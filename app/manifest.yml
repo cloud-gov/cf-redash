@@ -1,0 +1,12 @@
+applications:
+- name: ((app-name))
+  routes: 
+    - route: ((route))
+  docker:
+    image: redash/redash
+  services:
+    - ((database))   
+    - ((redis))      
+  instances: ((instances))
+  disk_quota: ((disk_quota))
+  memory: ((memory))
