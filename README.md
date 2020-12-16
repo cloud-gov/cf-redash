@@ -2,6 +2,8 @@
 
 An example application showing how to deploy [Redash](https://redash.io/help/open-source/setup) to the cloud.gov platform.
 
+<img src="https://raw.githubusercontent.com/getredash/website/8e820cd02c73a8ddf4f946a9d293c54fd3fb08b9/website/_assets/images/redash-anim.gif" width="80%"/>
+
 ## Overview
 
 Redash runs in a Docker container, and requires 2 backing services to run on cloud.gov - a [Postgres database](https://cloud.gov/docs/services/relational-database/) and an instance of [Redis](https://cloud.gov/docs/services/aws-elasticache/). Background docs on running Docker apps on cloud.gov can be found [here](https://cloud.gov/docs/deployment/docker/). 
