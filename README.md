@@ -55,7 +55,7 @@ When the app is pushed and restaged, change to the `/proxy` directory, and copy/
 The route for the proxy app is the public route you will use to access Redash. However, before your proxy can route traffic to Redash, you will need to set up a network policy for this.
 
 ```bash
-~$ cf add-network-policy (proxy-app-name) {app-name} --port 5000 --protocol tcp
+~$ cf add-network-policy {proxy-app-name} {app-name} --port 5000 --protocol tcp
 ```
 
 Once this is done, you should be able to access your Redash instance at the public `app.cloud.gov` route for your proxy application.
